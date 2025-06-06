@@ -2,7 +2,7 @@
   "title": "My News CMS",
   "backend": {
     "name": "github",
-    "repo": "your-username/your-repo-name",
+    "repo": "Debojyoti27 / The-Nexus-News",
     "branch": "main"
   },
   "media_folder": "images",
