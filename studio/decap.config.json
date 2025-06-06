@@ -1,0 +1,37 @@
+{
+  "title": "My News CMS",
+  "backend": {
+    "name": "github",
+    "repo": "your-username/your-repo-name",
+    "branch": "main"
+  },
+  "media_folder": "images",
+  "collections": [
+    {
+      "name": "tech",
+      "label": "Tech Articles",
+      "folder": "posts/tech",
+      "extension": "json",
+      "create": true,
+      "fields": [
+        { "label": "Title", "name": "title", "widget": "string" },
+        { "label": "Date", "name": "date", "widget": "datetime" },
+        { "label": "Image", "name": "image", "widget": "image" },
+        { "label": "Body", "name": "body", "widget": "text" }
+      ]
+    },
+    {
+      "name": "sports",
+      "label": "Sports Articles",
+      "folder": "posts/sports",
+      "extension": "json",
+      "create": true,
+      "fields": [
+        { "label": "Title", "name": "title", "widget": "string" },
+        { "label": "Date", "name": "date", "widget": "datetime" },
+        { "label": "Image", "name": "image", "widget": "image" },
+        { "label": "Body", "name": "body", "widget": "text" }
+      ]
+    }
+  ]
+}
