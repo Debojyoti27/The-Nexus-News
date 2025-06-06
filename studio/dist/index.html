@@ -1,17 +1,25 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Decap CMS</title>
+    <title>The Nexus News CMS</title>
     <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
-  </head>
-  <body>
     <script>
       window.CMS_MANUAL_INIT = true;
     </script>
-    <script type="module">
-      import config from '../decap.config.json' with { type: "json" };
-      window.CMS.init({ config });
+  </head>
+  <body>
+    <script>
+      // Load config.json manually
+      fetch('../decap.config.json')
+        .then((response) => response.json())
+        .then((config) => {
+          window.CMS.init({ config });
+        })
+        .catch((err) => {
+          document.body.innerHTML = '<p>❌ Failed to load config.json</p>';
+          console.error('Decap config error:', err);
+        });
     </script>
   </body>
 </html>
