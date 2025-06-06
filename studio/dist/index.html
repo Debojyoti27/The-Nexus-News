@@ -10,15 +10,14 @@
   </head>
   <body>
     <script>
-      // Load config.json manually
-      fetch('studio/decap.config.json')
+      fetch('decap.config.json')
         .then((response) => response.json())
         .then((config) => {
           window.CMS.init({ config });
         })
         .catch((err) => {
-          document.body.innerHTML = '<p>❌ Failed to load config.json</p>';
-          console.error('Decap config error:', err);
+          document.body.innerHTML = '<p>❌ Failed to load decap.config.json</p>';
+          console.error('Decap config load error:', err);
         });
     </script>
   </body>
