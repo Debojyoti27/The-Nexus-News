@@ -11,12 +11,21 @@
   <body>
     <script>
       fetch('decap.config.json')
-        .then((response) => response.json())
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error('HTTP error ' + response.status);
+          }
+          return response.json();
+        })
         .then((config) => {
+          console.log('✅ Decap config loaded:', config);
           window.CMS.init({ config });
         })
         .catch((err) => {
-          document.body.innerHTML = '<p>❌ Failed to load decap.config.json</p>';
+          document.body.innerHTML =
+            '<p style="color:red;font-weight:bold;">❌ Failed to load decap.config.json</p><pre>' +
+            err +
+            '</pre>';
           console.error('Decap config load error:', err);
         });
     </script>
