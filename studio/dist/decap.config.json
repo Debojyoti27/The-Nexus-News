@@ -1,0 +1,35 @@
+{
+  "backend": {
+    "name": "github",
+    "repo": "Debojyoti27/The-Nexus-News",
+    "branch": "main"
+  },
+  "media_folder": "images/uploads",
+  "public_folder": "/images/uploads",
+  "collections": [
+    {
+      "name": "tech",
+      "label": "Tech Articles",
+      "folder": "posts/tech",
+      "create": true,
+      "slug": "{{slug}}",
+      "fields": [
+        { "label": "Title", "name": "title", "widget": "string" },
+        { "label": "Date", "name": "date", "widget": "datetime" },
+        { "label": "Body", "name": "body", "widget": "markdown" }
+      ]
+    },
+    {
+      "name": "sports",
+      "label": "Sports Articles",
+      "folder": "posts/sports",
+      "create": true,
+      "slug": "{{slug}}",
+      "fields": [
+        { "label": "Title", "name": "title", "widget": "string" },
+        { "label": "Date", "name": "date", "widget": "datetime" },
+        { "label": "Body", "name": "body", "widget": "markdown" }
+      ]
+    }
+  ]
+}
