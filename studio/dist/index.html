@@ -1,5 +1,17 @@
 <!DOCTYPE html>
 <html>
-<head><title>Decap Studio</title></head>
-<body><h1>Welcome to Decap Studio (Static)</h1></body>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Decap CMS</title>
+    <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+  </head>
+  <body>
+    <script>
+      window.CMS_MANUAL_INIT = true;
+    </script>
+    <script type="module">
+      import config from '../decap.config.json' with { type: "json" };
+      window.CMS.init({ config });
+    </script>
+  </body>
 </html>
