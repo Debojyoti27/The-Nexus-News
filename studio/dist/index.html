@@ -11,7 +11,7 @@
   <body>
     <script>
       // Load config.json manually
-      fetch('../decap.config.json')
+      fetch('studio/decap.config.json')
         .then((response) => response.json())
         .then((config) => {
           window.CMS.init({ config });
