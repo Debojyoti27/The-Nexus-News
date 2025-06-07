@@ -11,7 +11,7 @@
   <body>
     <p id="loading">🔄 Loading CMS...</p>
     <script>
-      fetch('decap.config.json')
+      fetch('/decap.config.json')
         .then((response) => {
           if (!response.ok) {
             throw new Error('HTTP error ' + response.status);
