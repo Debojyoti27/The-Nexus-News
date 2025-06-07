@@ -9,6 +9,7 @@
     </script>
   </head>
   <body>
+    <p id="loading">🔄 Loading CMS...</p>
     <script>
       fetch('decap.config.json')
         .then((response) => {
@@ -18,7 +19,7 @@
           return response.json();
         })
         .then((config) => {
-          console.log('✅ Decap config loaded:', config);
+          document.getElementById('loading').remove();
           window.CMS.init({ config });
         })
         .catch((err) => {
