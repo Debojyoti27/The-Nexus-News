@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>World</title>
+  <link rel="shortcut icon" href="/images/The.ico" type="image/x-icon">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav>
+    <div class="nav-container">
+      <div class="logo">The Nexus News</div>
+
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="sports-page.html">Sports</a></li>
+        <li><a href="tech-page.html">Tech</a></li>
+        <li><a href="startups-page.html">Startups</a></li>
+        <li><a href="contact-page.html">Contact</a></li>
+        <li><a href="entertainment-page.html">Entertainment</a></li>
+        <li><a href="enviroment-page.html">Enviroment</a></li>
+        <li><a href="health-page.html">Health</a></li>
+        <li><a href="world-page.html">World</a></li>
+        
+        
+        
+      </ul>
+
+      <div class="hamburger" onclick="toggleMenu()">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Homepage Content -->
+  <div id="news-container"></div>
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+
+
+
+
+
+<!-- Footer -->
+<footer>
+  <div class="footer-container">
+    <div class="footer-about">
+      <h3>About MyNewsSite</h3>
+      <p>Your trusted source for the latest in tech, sports, and startup news. Updated daily by passionate writers and editors.</p>
+    </div>
+
+
+    <div class="footer-categories">
+      <h4>Categories</h4>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="sports-page.html">Sports</a></li>
+        <li><a href="tech-page.html">Tech</a></li>
+        <li><a href="startups-page.html">Startups</a></li>
+        <li><a href="entertainment-page.html">Entertainment</a></li>
+        <li><a href="enviroment-page.html">Enviroment</a></li>
+        <li><a href="health-page.html">Health</a></li>
+        <li><a href="contact-page.html">Contact</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-social">
+      <h4>Follow Us</h4>
+      <div class="social-icons">
+        <a href="#"><img src="https://img.icons8.com/ios-filled/24/ffffff/instagram-new.png" alt="Instagram"/></a>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p>&copy; 2025 MyNewsSite. All rights reserved.</p>
+  </div>
+</footer>
+
+  <!-- JS for mobile menu toggle -->
+  <script>
+    function toggleMenu() {
+      const nav = document.getElementById('navLinks');
+      nav.classList.toggle('active');
+    }
+  </script>
+
+</body>
+<script src="js/news-fetch.js"></script>
+<script>
+  loadNewsByCategory("world"); // change category per page
+</script>
+</html>
