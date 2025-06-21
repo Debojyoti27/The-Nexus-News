@@ -1,7 +1,7 @@
 // js/news-fetch.js
 
 function loadNewsByCategory(category) {
-  const apiKey = "pub_5aff2e38399c4ae78f6bf88e39182bd2";
+  const apiKey = "pub_d20111b1ade549b9a3d7daea58d8697f";
   const endpoint = `https://newsdata.io/api/1/news?apikey=${apiKey}&language=en&category=${category}`;
 
   fetch(endpoint)
