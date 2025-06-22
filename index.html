@@ -53,13 +53,12 @@
   <footer class="footer">
     <p>&copy; 2025 The Nexus News. All rights reserved. <a href="privacy-policy.html">Privacy Policy</a></p>
   </footer>
-
-  <script src="js/news-fetch.js"></script>
-  <script>
-    function toggleMenu() {
-      document.getElementById("navLinks").classList.toggle("active");
-    }
-    loadNewsByCategory("top");
-  </script>
+<script src="js/news-fetch.js"></script>
+<script>
+  window.onload = function() {
+    loadNewsByCategory('top'); // or use another category like 'technology'
+  };
+</script>
+  
 </body>
 </html>
