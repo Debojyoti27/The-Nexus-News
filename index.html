@@ -68,16 +68,10 @@
 
   <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  <script>
-  const currentCategory = "top"; // or dynamic based on page
+  <script src="js/news-fetch.js"></script>
+<script>
+  const currentCategory = "top"; // change per page if needed
   loadNewsByCategory(currentCategory);
-
-  window.addEventListener("scroll", () => {
-    if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 100) {
-      loadNewsByCategory(currentCategory);
-    }
-  });
 </script>
-<script src="js/news-fetch.js"></script>
 </body>
 </html>
