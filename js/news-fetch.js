@@ -1,39 +1,39 @@
-const apiKey = "pub_04cb86fce0104c22b0375937e08aed59";
-const language = "en";
-let loadedLinks = new Set();
+
+let shownLinks = new Set();
 
 function loadNewsByCategory(category) {
-  const url = `https://newsdata.io/api/1/news?apikey=${apiKey}&language=${language}&category=${category}&page=1`;
-
-  fetch(url)
-    .then(res => res.json())
+  fetch(`https://newsdata.io/api/1/news?apikey=pub_d20111b1ade549b9a3d7daea58d8697f&language=en&category=${category}&page=1`)
+    .then(response => response.json())
     .then(data => {
+      const container = document.getElementById('news-container');
+      container.innerHTML = '';
+
       if (!Array.isArray(data.results)) {
-        console.error("Invalid data format", data);
+        container.innerHTML = '<p>No news articles available right now.</p>';
         return;
       }
 
-      const container = document.getElementById("news-container");
-
       data.results.forEach(article => {
-        if (!loadedLinks.has(article.link)) {
-          loadedLinks.add(article.link);
+        if (!article.link || shownLinks.has(article.link)) return;
+        shownLinks.add(article.link);
 
-          const card = document.createElement("div");
-          card.className = "col-md-4";
-          card.innerHTML = `
-            <div class="card h-100">
-              <img src="${article.image_url || 'https://via.placeholder.com/300'}" class="card-img-top">
-              <div class="card-body">
-                <h5 class="card-title">${article.title}</h5>
-                <p class="card-text">${article.description || ''}</p>
-                <a href="${article.link}" target="_blank" class="btn btn-primary">Read more</a>
-              </div>
-            </div>
-          `;
-          container.appendChild(card);
-        }
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `
+          <img src="${article.image_url || 'https://via.placeholder.com/400x200'}" alt="News Image">
+          <div class="card-body">
+            <h3 class="card-title">${article.title}</h3>
+            <p class="card-text">${article.description || ''}</p>
+            <a href="${article.link}" target="_blank">Read more</a>
+            <a href="https://twitter.com/intent/tweet?text=${encodeURIComponent(article.title)}&url=${encodeURIComponent(article.link)}" target="_blank">Tweet</a>
+            <a href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(article.link)}" target="_blank">Share</a>
+          </div>
+        `;
+        container.appendChild(card);
       });
     })
-    .catch(err => console.error("Error fetching news:", err));
+    .catch(error => {
+      console.error('Error loading news:', error);
+      document.getElementById('news-container').innerHTML = '<p>Failed to load news. Try again later.</p>';
+    });
 }
