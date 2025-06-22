@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -57,11 +55,6 @@
     </div>
   </header>
 
-  <!-- Breaking News Ticker -->
-  <div class="alert alert-danger rounded-0 text-center" id="breaking-news-ticker">
-    <strong>Breaking:</strong> <span id="breaking-news-text">Loading...</span>
-  </div>
-
   <!-- Main Content Area -->
   <main class="container my-5">
     <div id="news-container" class="row g-4">
@@ -96,22 +89,10 @@
     let isLoading = false;
     const currentCategory = 'top';
 
-    function loadBreakingNews() {
-      fetch('https://newsdata.io/api/1/news?apikey=pub_d20111b1ade549b9a3d7daea58d8697f&language=en&category=top')
-        .then(res => res.json())
-        .then(data => {
-          const headline = data.results?.[0]?.title || "No breaking news at the moment.";
-          document.getElementById('breaking-news-text').innerText = headline;
-        })
-        .catch(err => {
-          console.error("Failed to load breaking news:", err);
-          document.getElementById('breaking-news-text').innerText = "Unable to load breaking news.";
-        });
-    }
-
     function loadNewsByCategory(category) {
       if (isLoading) return;
       isLoading = true;
+
       fetch(`https://newsdata.io/api/1/news?apikey=pub_d20111b1ade549b9a3d7daea58d8697f&language=en&page=${currentPage}&category=${category}`)
         .then(res => res.json())
         .then(data => {
@@ -148,7 +129,6 @@
     }
 
     function initializePage(category) {
-      loadBreakingNews();
       loadNewsByCategory(category);
     }
 
