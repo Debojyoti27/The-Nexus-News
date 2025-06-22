@@ -1,11 +1,7 @@
 const apiKey = "pub_04cb86fce0104c22b0375937e08aed59";
 const language = "en";
-let loadedLinks = new Set(); // Track loaded articles
+let loadedLinks = new Set();
 
-/**
- * Loads news by category and inserts unique articles.
- * @param {string} category
- */
 function loadNewsByCategory(category) {
   const url = `https://newsdata.io/api/1/news?apikey=${apiKey}&language=${language}&category=${category}&page=1`;
 
