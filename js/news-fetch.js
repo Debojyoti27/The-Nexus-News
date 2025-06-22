@@ -1,4 +1,4 @@
-const apiKey = "pub_d20111b1ade549b9a3d7daea58d8697f";
+const apiKey = "pub_04cb86fce0104c22b0375937e08aed59";
 const language = "en";
 let loadedLinks = new Set(); // Track loaded articles
 
