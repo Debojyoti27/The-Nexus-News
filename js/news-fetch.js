@@ -1,21 +1,16 @@
-let shownLinks = new Set();
-
 function loadNewsByCategory(category) {
-  fetch(`https://newsdata.io/api/1/news?apikey=pub_04cb86fce0104c22b0375937e08aed59&language=en&category=${category}&page=1`)
-    .then(response => response.json())
+  fetch(`https://newsdata.io/api/1/news?apikey=pub_d20111b1ade549b9a3d7daea58d8697f&language=en&category=${category}&page=1`)
+    .then(res => res.json())
     .then(data => {
       const container = document.getElementById('news-container');
-      container.innerHTML = '';
+      container.innerHTML = ''; // Clear existing content
 
-      if (!Array.isArray(data.results)) {
-        container.innerHTML = '<p>No news articles available right now.</p>';
+      if (!data.results || !Array.isArray(data.results)) {
+        container.innerHTML = '<p>No news found.</p>';
         return;
       }
 
       data.results.forEach(article => {
-        if (!article.link || shownLinks.has(article.link)) return;
-        shownLinks.add(article.link);
-
         const card = document.createElement('div');
         card.className = 'card';
         card.innerHTML = `
@@ -30,7 +25,7 @@ function loadNewsByCategory(category) {
       });
     })
     .catch(error => {
-      console.error('Error loading news:', error);
-      document.getElementById('news-container').innerHTML = '<p>Failed to load news. Try again later.</p>';
+      console.error("Failed to fetch news:", error);
+      document.getElementById('news-container').innerHTML = '<p>Error loading news. Please try again later.</p>';
     });
 }
