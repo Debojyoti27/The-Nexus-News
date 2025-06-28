@@ -1,31 +1,23 @@
-
+let currentPage = 1;
 let currentCategory = 'top';
-let seenArticles = new Set(); // To track duplicate articles
+const seenArticles = new Set();
 
-const API_KEY = 'pub_04cb86fce0104c22b0375937e08aed59';
-const API_BASE = 'https://newsdata.io/api/1/news';
-
-function loadBreakingNews() {
-  fetch(`${API_BASE}?apikey=${API_KEY}&language=en&category=top`)
-    .then(res => res.json())
-    .then(data => {
-      const breaking = data.results?.[0]?.title || "No breaking news available.";
-      document.getElementById('breaking-news-text').innerText = breaking;
-    })
-    .catch(err => {
-      console.error("Error loading breaking news:", err);
-      document.getElementById('breaking-news-text').innerText = "Unable to load breaking news.";
-    });
-}
+const API_KEY = 'pub_d20111b1ade549b9a3d7daea58d8697f';
+const API_BASE_URL = 'https://newsdata.io/api/1/news';
 
 function loadNewsByCategory(category) {
-  const url = `${API_BASE}?apikey=${API_KEY}&language=en&page=${currentPage}&category=${category}`;
+  const container = document.getElementById('news-container');
+  const url = `${API_BASE_URL}?apikey=${API_KEY}&language=en&category=${category}&page=${currentPage}`;
 
   fetch(url)
     .then(res => res.json())
     .then(data => {
-      const container = document.getElementById('news-container');
-      data.results?.forEach(article => {
+      if (!Array.isArray(data.results)) {
+        console.error('Invalid or missing results in response:', data);
+        return;
+      }
+
+      data.results.forEach(article => {
         if (!seenArticles.has(article.title)) {
           seenArticles.add(article.title);
 
@@ -46,33 +38,13 @@ function loadNewsByCategory(category) {
       });
     })
     .catch(err => {
-      console.error("Error loading news:", err);
+      console.error('Error fetching news:', err);
     });
 }
 
-// Pagination
-function nextPage() {
-  currentPage++;
-  loadNewsByCategory(currentCategory);
-}
-
-function previousPage() {
-  if (currentPage > 1) {
-    currentPage--;
-    seenArticles.clear(); // Reset to allow reloading
-    document.getElementById('news-container').innerHTML = '';
-    loadNewsByCategory(currentCategory);
-  }
-}
-
-// Theme toggle
-function toggleDarkMode() {
-  document.body.classList.toggle('dark-mode');
-}
-
-// Init
-window.onload = function () {
-  const pageName = window.location.pathname.split('/').pop();
+// Detect current category from page
+function detectCategory() {
+  const path = window.location.pathname.split('/').pop();
   const categoryMap = {
     'index.html': 'top',
     'tech-page.html': 'technology',
@@ -83,10 +55,41 @@ window.onload = function () {
     'world-page.html': 'world',
     'entertainment-page.html': 'entertainment'
   };
+  return categoryMap[path] || 'top';
+}
 
-  currentCategory = categoryMap[pageName] || 'top';
-  document.getElementById('news-container').innerHTML = '';
+// Initializer
+function initializePage() {
+  currentCategory = detectCategory();
+  currentPage = 1;
   seenArticles.clear();
-  loadBreakingNews();
+
+  const container = document.getElementById('news-container');
+  if (container) container.innerHTML = '';
+
   loadNewsByCategory(currentCategory);
-};
+}
+
+// For pagination buttons (if any)
+function nextPage() {
+  currentPage++;
+  loadNewsByCategory(currentCategory);
+}
+
+function previousPage() {
+  if (currentPage > 1) {
+    currentPage--;
+    seenArticles.clear();
+    const container = document.getElementById('news-container');
+    if (container) container.innerHTML = '';
+    loadNewsByCategory(currentCategory);
+  }
+}
+
+// Theme toggle (optional)
+function toggleDarkMode() {
+  document.body.classList.toggle('dark-mode');
+}
+
+// Run on page load
+window.onload = initializePage;
