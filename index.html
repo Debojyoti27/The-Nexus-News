@@ -2,63 +2,55 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <link rel="shortcut icon" href="/images/The.ico" type="image/x-icon">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>The Nexus News</title>
   <link rel="stylesheet" href="css/style.css" />
+  <link rel="shortcut icon" href="images/The.ico" type="image/x-icon" />
 </head>
 <body>
-  <!-- Navbar -->
-  <nav class="navbar">
+  <header>
     <div class="container">
-      <a href="index.html" class="logo">The Nexus News</a>
-      <button class="menu-toggle" onclick="toggleMenu()">☰</button>
-      <ul class="nav-links" id="navLinks">
-        <li><a href="index.html">Home</a></li>
-        <li><a href="tech-page.html">Tech</a></li>
-        <li><a href="startups-page.html">Startups</a></li>
-        <li><a href="sports-page.html">Sports</a></li>
-        <li><a href="health-page.html">Health</a></li>
-        <li><a href="environment-page.html">Environment</a></li>
-        <li><a href="world-page.html">World</a></li>
-        <li><a href="entertainment-page.html">Entertainment</a></li>
-        <li><a href="contact-page.html">Contact</a></li>
-      </ul>
+      <h1>The Nexus News</h1>
+      <nav>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="tech-page.html">Tech</a></li>
+          <li><a href="startups-page.html">Startups</a></li>
+          <li><a href="sports-page.html">Sports</a></li>
+          <li><a href="health-page.html">Health</a></li>
+          <li><a href="environment-page.html">Environment</a></li>
+          <li><a href="world-page.html">World</a></li>
+          <li><a href="entertainment-page.html">Entertainment</a></li>
+          <li><a href="contact-page.html">Contact</a></li>
+        </ul>
+      </nav>
     </div>
-  </nav>
-
-  <!-- Hero -->
-  <header class="hero">
-    <h1>The Nexus News</h1>
-    <p>Your daily source of tech, sports, and startup news.</p>
   </header>
 
-  <!-- News Section -->
-  <main class="news-section">
+  <section class="hero">
+    <div class="container">
+      <h2>Welcome to The Nexus News</h2>
+      <p>Your daily dose of curated headlines</p>
+    </div>
+  </section>
+
+  <main class="container">
     <div id="news-container" class="news-grid">
-      <!-- News cards will be injected here -->
+      <!-- News cards appear here -->
     </div>
   </main>
 
-  <!-- Newsletter -->
-  <section class="newsletter">
-    <h2>Subscribe to Our Newsletter</h2>
-    <form action="https://formspree.io/f/YOUR_ID" method="POST">
-      <input type="email" name="email" placeholder="Enter your email" required>
-      <button type="submit">Subscribe</button>
-    </form>
-  </section>
-
-  <!-- Footer -->
-  <footer class="footer">
-    <p>&copy; 2025 The Nexus News. All rights reserved. <a href="privacy-policy.html">Privacy Policy</a></p>
+  <footer>
+    <div class="container">
+      <p>&copy; 2025 The Nexus News. All rights reserved. <a href="privacy-policy.html">Privacy Policy</a></p>
+    </div>
   </footer>
-<script src="js/news-fetch.js"></script>
-<script>
-  window.onload = function() {
-    loadNewsByCategory('top'); // or use another category like 'technology'
-  };
-</script>
-  
+
+  <script src="js/news-fetch.js"></script>
+  <script>
+    window.onload = () => {
+      loadNewsByCategory('top');
+    };
+  </script>
 </body>
 </html>
