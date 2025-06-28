@@ -1,12 +1,12 @@
 function loadNewsByCategory(category) {
-  const apiKey = "pub_04cb86fce0104c22b0375937e08aed59"; // Your working API key
-  const url = `https://newsdata.io/api/1/news?apikey=${apiKey}&language=en&category=${category}&page=1`;
+  const apiKey = "pub_04cb86fce0104c22b0375937e08aed59"; // your key
+  const url = `https://newsdata.io/api/1/news?apikey=${apiKey}&language=en&category=${category}`;
 
   fetch(url)
     .then((res) => res.json())
     .then((data) => {
       const container = document.getElementById("news-container");
-      container.innerHTML = ""; // Clear previous news
+      container.innerHTML = ""; // clear old news
 
       if (!data.results || !Array.isArray(data.results)) {
         container.innerHTML = "<p>No news found.</p>";
@@ -30,7 +30,7 @@ function loadNewsByCategory(category) {
       });
     })
     .catch((err) => {
-      console.error("Failed to fetch news:", err);
+      console.error("Error loading news:", err);
       document.getElementById("news-container").innerHTML = "<p>Error loading news.</p>";
     });
 }
