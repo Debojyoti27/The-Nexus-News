@@ -1,22 +1,25 @@
-let currentPage = 1;
 let currentCategory = 'top';
-const seenArticles = new Set();
+let seenArticles = new Set();
+let nextPageToken = null;
 
 const API_KEY = 'pub_04cb86fce0104c22b0375937e08aed59';
 const API_BASE_URL = 'https://newsdata.io/api/1/news';
 
 function loadNewsByCategory(category) {
-  const container = document.getElementById('news-container');
-  const url = `${API_BASE_URL}?apikey=${API_KEY}&language=en&category=${category}&page=${currentPage}`;
+  let url = `${API_BASE_URL}?apikey=${API_KEY}&language=en&category=${category}`;
+  if (nextPageToken) {
+    url += `&page=${nextPageToken}`;
+  }
 
   fetch(url)
     .then(res => res.json())
     .then(data => {
       if (!Array.isArray(data.results)) {
-        console.error('Invalid or missing results in response:', data);
+        console.error('No valid results received:', data);
         return;
       }
 
+      const container = document.getElementById('news-container');
       data.results.forEach(article => {
         if (!seenArticles.has(article.title)) {
           seenArticles.add(article.title);
@@ -31,18 +34,20 @@ function loadNewsByCategory(category) {
                 <p class="card-text">${article.description || ''}</p>
                 <a href="${article.link}" target="_blank" class="btn btn-primary mt-auto">Read more</a>
               </div>
-            </div>
-          `;
+            </div>`;
           container.appendChild(card);
         }
       });
+
+      // Update nextPageToken for next call
+      nextPageToken = data.nextPage;
     })
     .catch(err => {
       console.error('Error fetching news:', err);
     });
 }
 
-// Detect current category from page
+// Detect the current page’s category
 function detectCategory() {
   const path = window.location.pathname.split('/').pop();
   const categoryMap = {
@@ -58,10 +63,10 @@ function detectCategory() {
   return categoryMap[path] || 'top';
 }
 
-// Initializer
+// Initial Load
 function initializePage() {
   currentCategory = detectCategory();
-  currentPage = 1;
+  nextPageToken = null;
   seenArticles.clear();
 
   const container = document.getElementById('news-container');
@@ -70,26 +75,12 @@ function initializePage() {
   loadNewsByCategory(currentCategory);
 }
 
-// For pagination buttons (if any)
-function nextPage() {
-  currentPage++;
-  loadNewsByCategory(currentCategory);
-}
-
-function previousPage() {
-  if (currentPage > 1) {
-    currentPage--;
-    seenArticles.clear();
-    const container = document.getElementById('news-container');
-    if (container) container.innerHTML = '';
+// Next Page button support (if needed)
+function loadNextPage() {
+  if (nextPageToken) {
     loadNewsByCategory(currentCategory);
   }
 }
 
-// Theme toggle (optional)
-function toggleDarkMode() {
-  document.body.classList.toggle('dark-mode');
-}
-
-// Run on page load
+// Run on load
 window.onload = initializePage;
