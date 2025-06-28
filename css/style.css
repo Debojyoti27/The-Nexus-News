@@ -1,81 +1,67 @@
-/* Base */
+/* Custom Light-Themed CSS */
 body {
+  font-family: Arial, sans-serif;
   margin: 0;
-  font-family: 'Segoe UI', sans-serif;
-  background-color: #f8f8f8;
+  background: #f9f9f9;
   color: #333;
 }
 
-/* Navbar */
-.navbar {
-  background: #111;
-  color: #fff;
-  padding: 15px 20px;
-  position: sticky;
-  top: 0;
-  z-index: 999;
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: auto;
 }
 
-.navbar .container {
+header {
+  background: #ffffff;
+  border-bottom: 1px solid #ddd;
+  padding: 1rem 0;
+}
+
+header h1 {
+  margin: 0;
+  text-align: center;
+  color: #222;
+}
+
+nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0 0;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
 }
 
-.logo {
-  color: #fff;
+nav a {
   text-decoration: none;
-  font-size: 1.5rem;
+  color: #0077cc;
   font-weight: bold;
 }
 
-.menu-toggle {
-  display: none;
-  font-size: 24px;
-  background: none;
-  border: none;
-  color: #fff;
-}
-
-.nav-links {
-  list-style: none;
-  display: flex;
-  gap: 15px;
-}
-
-.nav-links a {
-  color: #fff;
-  text-decoration: none;
-  font-weight: 500;
-}
-
-.nav-links.active {
-  display: block;
-}
-
-/* Hero */
 .hero {
+  background: #e6f0ff;
+  padding: 2rem 0;
   text-align: center;
-  padding: 50px 20px;
-  background: #007bff;
-  color: white;
 }
 
-/* News Grid */
-.news-section {
-  padding: 40px 20px;
+.hero h2 {
+  margin: 0;
+  font-size: 2rem;
 }
 
 .news-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin: 2rem 0;
 }
 
 .card {
-  background: #fff;
+  background: white;
+  border: 1px solid #ddd;
   border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -88,77 +74,29 @@ body {
 }
 
 .card-body {
-  padding: 15px;
-  flex: 1;
+  padding: 1rem;
 }
 
 .card-title {
   font-size: 1.1rem;
-  margin-bottom: 10px;
+  margin: 0 0 0.5rem;
 }
 
 .card-text {
   font-size: 0.95rem;
-  margin-bottom: 15px;
+  margin-bottom: 0.75rem;
 }
 
 .card a {
-  display: inline-block;
-  margin-right: 8px;
   text-decoration: none;
-  color: #007bff;
-}
-
-/* Newsletter */
-.newsletter {
-  background: #343a40;
-  color: white;
-  text-align: center;
-  padding: 40px 20px;
-}
-
-.newsletter input {
-  padding: 10px;
-  width: 250px;
-  border-radius: 5px;
-  border: none;
-  margin-right: 10px;
-}
-
-.newsletter button {
-  padding: 10px 20px;
-  border: none;
-  background: orange;
-  color: black;
+  color: #0056b3;
   font-weight: bold;
-  cursor: pointer;
-  border-radius: 5px;
 }
 
-/* Footer */
-.footer {
-  background: #222;
-  color: #aaa;
+footer {
+  background: #ffffff;
+  border-top: 1px solid #ddd;
+  padding: 1rem 0;
   text-align: center;
-  padding: 15px;
-}
-
-.footer a {
-  color: #aaa;
-  text-decoration: underline;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-  .nav-links {
-    flex-direction: column;
-    display: none;
-    background: #111;
-    margin-top: 10px;
-    padding: 10px;
-  }
-
-  .menu-toggle {
-    display: block;
-  }
+  font-size: 0.9rem;
 }
