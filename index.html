@@ -46,11 +46,12 @@
     </div>
   </footer>
 
-  <script src="js/news-fetch.js"></script>
   <script>
-    window.onload = () => {
-      loadNewsByCategory('top');
-    };
-  </script>
+  document.addEventListener("DOMContentLoaded", function () {
+    loadNewsByCategory("top"); // Default category
+  });
+</script>
+<script src="js/news-fetch.js"></script>
+
 </body>
 </html>
