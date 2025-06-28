@@ -2,20 +2,20 @@ let currentCategory = 'top';
 let seenArticles = new Set();
 let nextPageToken = null;
 
-const API_KEY = 'pub_04cb86fce0104c22b0375937e08aed59';
+const API_KEY = 'pub_d20111b1ade549b9a3d7daea58d8697f';
 const API_BASE_URL = 'https://newsdata.io/api/1/news';
 
-function loadNewsByCategory(category) {
-  let url = `${API_BASE_URL}?apikey=${API_KEY}&language=en&category=${category}`;
-  if (nextPageToken) {
-    url += `&page=${nextPageToken}`;
+function fetchNews(pageToken = null) {
+  let url = `${API_BASE_URL}?apikey=${API_KEY}&language=en&category=${currentCategory}`;
+  if (pageToken) {
+    url += `&page=${pageToken}`;
   }
 
   fetch(url)
     .then(res => res.json())
     .then(data => {
       if (!Array.isArray(data.results)) {
-        console.error('No valid results received:', data);
+        console.error('Invalid data:', data);
         return;
       }
 
@@ -39,18 +39,24 @@ function loadNewsByCategory(category) {
         }
       });
 
-      // Update nextPageToken for next call
-      nextPageToken = data.nextPage;
+      nextPageToken = data.nextPage || null;
+      document.getElementById('nextBtn').disabled = !nextPageToken;
     })
     .catch(err => {
-      console.error('Error fetching news:', err);
+      console.error('News fetch failed:', err);
     });
 }
 
-// Detect the current page’s category
+function initializePage() {
+  currentCategory = detectCategory();
+  seenArticles.clear();
+  document.getElementById('news-container').innerHTML = '';
+  fetchNews();
+}
+
 function detectCategory() {
   const path = window.location.pathname.split('/').pop();
-  const categoryMap = {
+  const map = {
     'index.html': 'top',
     'tech-page.html': 'technology',
     'startups-page.html': 'business',
@@ -60,27 +66,15 @@ function detectCategory() {
     'world-page.html': 'world',
     'entertainment-page.html': 'entertainment'
   };
-  return categoryMap[path] || 'top';
+  return map[path] || 'top';
 }
 
-// Initial Load
-function initializePage() {
-  currentCategory = detectCategory();
-  nextPageToken = null;
-  seenArticles.clear();
+document.addEventListener('DOMContentLoaded', () => {
+  initializePage();
 
-  const container = document.getElementById('news-container');
-  if (container) container.innerHTML = '';
-
-  loadNewsByCategory(currentCategory);
-}
-
-// Next Page button support (if needed)
-function loadNextPage() {
-  if (nextPageToken) {
-    loadNewsByCategory(currentCategory);
-  }
-}
-
-// Run on load
-window.onload = initializePage;
+  document.getElementById('nextBtn').addEventListener('click', () => {
+    if (nextPageToken) {
+      fetchNews(nextPageToken);
+    }
+  });
+});
