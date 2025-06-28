@@ -1,4 +1,4 @@
-let currentPage = 1;
+
 let currentCategory = 'top';
 let seenArticles = new Set(); // To track duplicate articles
 
