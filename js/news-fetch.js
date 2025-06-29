@@ -7,9 +7,7 @@ const API_BASE_URL = 'https://newsdata.io/api/1/news';
 
 function fetchNews(pageToken = null) {
   let url = `${API_BASE_URL}?apikey=${API_KEY}&language=en&category=${currentCategory}`;
-  if (pageToken) {
-    url += `&page=${pageToken}`;
-  }
+  if (pageToken) url += `&page=${pageToken}`;
 
   fetch(url)
     .then(res => res.json())
@@ -23,12 +21,11 @@ function fetchNews(pageToken = null) {
       data.results.forEach(article => {
         if (!seenArticles.has(article.title)) {
           seenArticles.add(article.title);
-
           const card = document.createElement('div');
           card.className = 'col-md-4';
           card.innerHTML = `
             <div class="card h-100 shadow-sm">
-              <img src="${article.image_url || 'https://via.placeholder.com/300'}" class="card-img-top" alt="news image">
+              <img src="${article.image_url || 'https://via.placeholder.com/300'}" class="card-img-top" alt="News Image">
               <div class="card-body d-flex flex-column">
                 <h5 class="card-title">${article.title}</h5>
                 <p class="card-text">${article.description || ''}</p>
@@ -39,8 +36,9 @@ function fetchNews(pageToken = null) {
         }
       });
 
+      // Set next page token and show/hide "Load More"
       nextPageToken = data.nextPage || null;
-      document.getElementById('nextBtn').disabled = !nextPageToken;
+      document.getElementById('loadMoreBtn').style.display = nextPageToken ? 'block' : 'none';
     })
     .catch(err => {
       console.error('News fetch failed:', err);
@@ -55,7 +53,7 @@ function initializePage() {
 }
 
 function detectCategory() {
-  const path = window.location.pathname.split('/').pop();
+  const page = window.location.pathname.split('/').pop();
   const map = {
     'index.html': 'top',
     'tech-page.html': 'technology',
@@ -66,15 +64,12 @@ function detectCategory() {
     'world-page.html': 'world',
     'entertainment-page.html': 'entertainment'
   };
-  return map[path] || 'top';
+  return map[page] || 'top';
 }
 
 document.addEventListener('DOMContentLoaded', () => {
   initializePage();
-
-  document.getElementById('nextBtn').addEventListener('click', () => {
-    if (nextPageToken) {
-      fetchNews(nextPageToken);
-    }
+  document.getElementById('loadMoreBtn').addEventListener('click', () => {
+    if (nextPageToken) fetchNews(nextPageToken);
   });
 });
