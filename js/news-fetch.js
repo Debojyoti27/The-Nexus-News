@@ -17,21 +17,23 @@ function fetchNews(pageToken = null) {
         return;
       }
 
+
       const container = document.getElementById('news-container');
+const hasImage = article.image_url && article.image_url.trim() !== '';
       data.results.forEach(article => {
         if (!seenArticles.has(article.title)) {
           seenArticles.add(article.title);
           const card = document.createElement('div');
           card.className = 'col-md-4';
           card.innerHTML = `
-            <div class="card h-100 shadow-sm">
-              <img src="${article.image_url || 'https://via.placeholder.com/300'}" class="card-img-top" alt="News Image">
-              <div class="card-body d-flex flex-column">
-                <h5 class="card-title">${article.title}</h5>
-                <p class="card-text">${article.description || ''}</p>
-                <a href="${article.link}" target="_blank" class="btn btn-primary mt-auto">Read more</a>
-              </div>
-            </div>`;
+           <div class="card h-100 shadow-sm">
+    ${hasImage ? `<img src="${article.image_url}" class="card-img-top" alt="News Image">` : ''}
+    <div class="card-body d-flex flex-column">
+      <h5 class="card-title">${article.title}</h5>
+      <p class="card-text">${article.description || ''}</p>
+      <a href="${article.link}" target="_blank" class="btn btn-primary mt-auto">Read more</a>
+    </div>
+  </div>`;
           container.appendChild(card);
         }
       });
