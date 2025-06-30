@@ -1,7 +1,9 @@
 let currentPage = 1;
 let isLoading = false;
+let totalPages = 1; // Will be set dynamically
+const API_KEY = 'pub_04cb86fce0104c22b0375937e08aed59';
 
-// 🔁 Mapping page filenames to category names
+// Map page name to category
 const categoryMap = {
   'index.html': 'top',
   'tech-page.html': 'technology',
@@ -13,31 +15,35 @@ const categoryMap = {
   'entertainment-page.html': 'entertainment'
 };
 
-// ✅ Get the current filename
 const currentFile = window.location.pathname.split('/').pop();
 const currentCategory = categoryMap[currentFile] || 'top';
 
 function loadNewsByCategory(category) {
-  if (isLoading) return;
-  isLoading = true;
+  if (isLoading || currentPage > totalPages) return;
 
-  fetch(`https://newsdata.io/api/1/news?apikey=pub_04cb86fce0104c22b0375937e08aed59&language=en&page=${currentPage}&category=${category}`)
+  isLoading = true;
+  const url = `https://newsdata.io/api/1/news?apikey=${API_KEY}&language=en&category=${category}&page=${currentPage}`;
+
+  fetch(url)
     .then(res => res.json())
     .then(data => {
       const container = document.getElementById('news-container');
 
-      if (!Array.isArray(data.results)) {
-        console.error("No valid results:", data);
-        isLoading = false;
+      // Handle API error
+      if (data.status === 'error' || !Array.isArray(data.results)) {
+        container.innerHTML = `<div class="col-12 text-center text-danger">⚠️ Unable to load news.</div>`;
+        document.getElementById('loadMoreBtn')?.classList.add('d-none');
         return;
       }
+
+      totalPages = data.totalPages || 1; // Use totalPages if available
 
       data.results.forEach(article => {
         const card = document.createElement('div');
         card.className = 'col-md-4';
         card.innerHTML = `
           <div class="card h-100">
-            ${article.image_url ? `<img src="${article.image_url}" class="card-img-top">` : ''}
+            ${article.image_url ? `<img src="${article.image_url}" class="card-img-top" alt="news image">` : ''}
             <div class="card-body">
               <h5 class="card-title">${article.title}</h5>
               <p class="card-text">${article.description || ''}</p>
@@ -47,16 +53,23 @@ function loadNewsByCategory(category) {
         container.appendChild(card);
       });
 
-      isLoading = false;
       currentPage++;
+      if (currentPage > totalPages) {
+        document.getElementById('loadMoreBtn')?.classList.add('d-none');
+      }
+
+      isLoading = false;
     })
-    .catch(err => {
-      console.error("Failed to fetch news:", err);
+    .catch(error => {
+      console.error("News fetch error:", error);
       isLoading = false;
     });
 }
 
-// 🟢 Initialize on load
 window.onload = () => {
   loadNewsByCategory(currentCategory);
+  const loadMoreBtn = document.getElementById('loadMoreBtn');
+  if (loadMoreBtn) {
+    loadMoreBtn.addEventListener('click', () => loadNewsByCategory(currentCategory));
+  }
 };
