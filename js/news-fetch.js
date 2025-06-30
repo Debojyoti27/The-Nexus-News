@@ -1,5 +1,5 @@
 const currentFile = window.location.pathname.split('/').pop();
-const currentCategory = categoryMap[currentFile] || 'top';
+const currentCategory = detectCategory[currentFile] || 'top';
 let seenArticles = new Set();
 let nextPageToken = null;
 
