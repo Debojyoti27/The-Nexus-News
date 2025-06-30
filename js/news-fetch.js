@@ -1,74 +1,75 @@
-let currentPage = 1;
-let isLoading = false;
-const API_KEY = 'pub_04cb86fce0104c22b0375937e08aed59';
+let currentCategory =  window.location.pathname.split('/').pop();
+let seenArticles = new Set();
+let nextPageToken = null;
 
-// Detect current category from page name
-const categoryMap = {
-  'index.html': 'top',
-  'tech-page.html': 'technology',
-  'startups-page.html': 'business',
-  'sports-page.html': 'sports',
-  'health-page.html': 'health',
-  'environment-page.html': 'environment',
-  'world-page.html': 'world',
-  'entertainment-page.html': 'entertainment'
-};
+const API_KEY = 'pub_d20111b1ade549b9a3d7daea58d8697f';
+const API_BASE_URL = 'https://newsdata.io/api/1/news';
 
-const currentPageFile = window.location.pathname.split('/').pop();
-const currentCategory = categoryMap[currentPageFile] || 'top';
+function fetchNews(pageToken = null) {
+  let url = `${API_BASE_URL}?apikey=${API_KEY}&language=en&category=${currentCategory}`;
+  if (pageToken) url += `&page=${pageToken}`;
 
-function loadNewsByCategory(category) {
-  if (isLoading) return;
-
-  isLoading = true;
-  const apiUrl = `https://newsdata.io/api/1/news?apikey=${API_KEY}&language=en&category=${category}&page=${currentPage}`;
-
-  fetch(apiUrl)
+  fetch(url)
     .then(res => res.json())
     .then(data => {
-      if (!data.results || !Array.isArray(data.results)) {
-        document.getElementById('news-container').innerHTML = `
-          <div class="col-12 text-danger text-center">❌ Failed to load news. Try again later.</div>`;
-        document.getElementById('loadMoreBtn')?.classList.add('d-none');
+      if (!Array.isArray(data.results)) {
+        console.error('Invalid data:', data);
         return;
       }
 
       const container = document.getElementById('news-container');
-
       data.results.forEach(article => {
-        const card = document.createElement('div');
-        card.className = 'col-md-4';
-        card.innerHTML = `
-          <div class="card h-100">
-            ${article.image_url ? `<img src="${article.image_url}" class="card-img-top" alt="news image">` : ''}
-            <div class="card-body">
-              <h5 class="card-title">${article.title}</h5>
-              <p class="card-text">${article.description || ''}</p>
-              <a href="${article.link}" target="_blank" class="btn btn-primary">Read more</a>
-              <div class="mt-2">
-                <a href="https://twitter.com/intent/tweet?text=${encodeURIComponent(article.title)}&url=${encodeURIComponent(article.link)}" target="_blank" class="btn btn-sm btn-info text-white me-1">Tweet</a>
-                <a href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(article.link)}" target="_blank" class="btn btn-sm btn-primary text-white">Share</a>
+        if (!seenArticles.has(article.title)) {
+          seenArticles.add(article.title);
+          const card = document.createElement('div');
+          card.className = 'col-md-4';
+          card.innerHTML = `
+            <div class="card h-100 shadow-sm">
+              <img src="${article.image_url || 'https://via.placeholder.com/300'}" class="card-img-top" alt="News Image">
+              <div class="card-body d-flex flex-column">
+                <h5 class="card-title">${article.title}</h5>
+                <p class="card-text">${article.description || ''}</p>
+                <a href="${article.link}" target="_blank" class="btn btn-primary mt-auto">Read more</a>
               </div>
-            </div>
-          </div>`;
-        container.appendChild(card);
+            </div>`;
+          container.appendChild(card);
+        }
       });
 
-      currentPage++; // Increment for next fetch
-      isLoading = false;
+      // Set next page token and show/hide "Load More"
+      nextPageToken = data.nextPage || null;
+      document.getElementById('loadMoreBtn').style.display = nextPageToken ? 'block' : 'none';
     })
-    .catch(error => {
-      console.error("Error loading news:", error);
-      isLoading = false;
+    .catch(err => {
+      console.error('News fetch failed:', err);
     });
 }
 
-// Initialize when page loads
-window.onload = () => {
-  loadNewsByCategory(currentCategory);
+function initializePage() {
+  currentCategory = detectCategory();
+  seenArticles.clear();
+  document.getElementById('news-container').innerHTML = '';
+  fetchNews();
+}
 
-  const loadMoreBtn = document.getElementById('loadMoreBtn');
-  if (loadMoreBtn) {
-    loadMoreBtn.addEventListener('click', () => loadNewsByCategory(currentCategory));
-  }
-};
+function detectCategory() {
+  const page = window.location.pathname.split('/').pop();
+  const map = {
+    'index.html': 'top',
+    'tech-page.html': 'technology',
+    'startups-page.html': 'business',
+    'sports-page.html': 'sports',
+    'health-page.html': 'health',
+    'environment-page.html': 'environment',
+    'world-page.html': 'world',
+    'entertainment-page.html': 'entertainment'
+  };
+  return map[page] || 'top';
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  initializePage();
+  document.getElementById('loadMoreBtn').addEventListener('click', () => {
+    if (nextPageToken) fetchNews(nextPageToken);
+  });
+});
