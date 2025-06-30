@@ -2,7 +2,18 @@ const currentFile = window.location.pathname.split('/').pop();
 const currentCategory = detectCategory[currentFile] ;
 let seenArticles = new Set();
 let nextPageToken = null;
-
+function detectCategory() {
+  const page = window.location.pathname.split('/').pop();
+  const map = {
+    'index.html': 'top',
+    'tech-page.html': 'technology',
+    'startups-page.html': 'business',
+    'sports-page.html': 'sports',
+    'health-page.html': 'health',
+    'environment-page.html': 'environment',
+    'world-page.html': 'world',
+    'entertainment-page.html': 'entertainment'
+  };
 const API_KEY = 'pub_04cb86fce0104c22b0375937e08aed59';
 const API_BASE_URL = 'https://newsdata.io/api/1/news';
 
@@ -53,18 +64,7 @@ function initializePage() {
   fetchNews();
 }
 
-function detectCategory() {
-  const page = window.location.pathname.split('/').pop();
-  const map = {
-    'index.html': 'top',
-    'tech-page.html': 'technology',
-    'startups-page.html': 'business',
-    'sports-page.html': 'sports',
-    'health-page.html': 'health',
-    'environment-page.html': 'environment',
-    'world-page.html': 'world',
-    'entertainment-page.html': 'entertainment'
-  };
+
   return map[page] || 'top';
 }
 
