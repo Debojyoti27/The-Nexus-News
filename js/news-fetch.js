@@ -1,9 +1,9 @@
 const currentFile = window.location.pathname.split('/').pop();
-const currentCategory = detectCategory[currentFile] || 'top';
+const currentCategory = detectCategory[currentFile] ;
 let seenArticles = new Set();
 let nextPageToken = null;
 
-const API_KEY = 'pub_d20111b1ade549b9a3d7daea58d8697f';
+const API_KEY = 'pub_04cb86fce0104c22b0375937e08aed59';
 const API_BASE_URL = 'https://newsdata.io/api/1/news';
 
 function fetchNews(pageToken = null) {
