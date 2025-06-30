@@ -21,7 +21,7 @@ function loadNewsByCategory(category) {
   if (isLoading) return;
   isLoading = true;
 
-  fetch(`https://newsdata.io/api/1/news?apikey=pub_d20111b1ade549b9a3d7daea58d8697f&language=en&page=${currentPage}&category=${category}`)
+  fetch(`https://newsdata.io/api/1/news?apikey=pub_04cb86fce0104c22b0375937e08aed59&language=en&page=${currentPage}&category=${category}`)
     .then(res => res.json())
     .then(data => {
       const container = document.getElementById('news-container');
